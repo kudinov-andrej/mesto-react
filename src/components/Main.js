@@ -1,16 +1,13 @@
-
-import React, { useEffect } from 'react';
+import  { useEffect, useState } from 'react'; 
 import api from "../utils/api.js"
 import Card from "../components/Card.js"
 
-
-
 function Main(props) {
 
-  const [userName, setUserName] = React.useState("")
-  const [userDescription, setUserescription] = React.useState("")
-  const [userAvatar, setUserAvatar] = React.useState("")
-  const [cards, setcards] = React.useState([])
+  const [userName, setUserName] = useState("")
+  const [userDescription, setUserescription] = useState("")
+  const [userAvatar, setUserAvatar] = useState("")
+  const [cards, setcards] = useState([])
 
   useEffect(() => {
     Promise.all([api.getCards(), api.getCurrentUser()]).then(([cards, userData]) => {
@@ -18,14 +15,12 @@ function Main(props) {
       setUserName(userData.name)
       setUserescription(userData.about)
       setUserAvatar(userData.avatar)
-      
     }).catch((err) => {
       console.error(err);
     })
   }, [])
 
-  
-  return (
+    return (
     <main className="content">
       <section className="profile">
         <div className="profile__block">
@@ -43,17 +38,18 @@ function Main(props) {
         <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
       </section>
       <section className="plase">
-        {cards.map((card, _id) => (
+        {cards.map((card) => (         
           <Card
-            key={_id}
+            key={card._id}
             card={card}
             link={card.link}
             name={card.name}
             likes={card.likes.length}
             onCardClick={props.onCardClick}
             />
+            
         ))}
-       
+    
       </section>
     </main>
   );

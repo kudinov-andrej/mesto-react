@@ -1,7 +1,10 @@
+import React from 'react';
+
+
 function Footer() {
     return (
-        <footer class="footer">
-          <p class="footer__info">&#xa9;2022 Mesto Russia</p>
+        <footer className="footer">
+          <p className="footer__info">&#xa9;2022 Mesto Russia</p>
         </footer>
     );
   }

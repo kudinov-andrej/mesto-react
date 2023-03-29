@@ -1,43 +1,62 @@
-import React from 'react';
 
-function Main() {
+import React, { useEffect } from 'react';
+import api from "../utils/api.js"
+import Card from "../components/Card.js"
 
-    const [isCustomCursor, setIsCustomCursor] = React.useState();
 
-  function handleEditAvatarClick() {
-    const PopupTupyAvatarProfile = document.querySelector(".popap_typy_change-avatar");
-    PopupTupyAvatarProfile.classList.add('popap_opened');
-  }
 
-  function handleEditProfileClick() {
-    const PopupTupyEditProfile = document.querySelector(".popap_typy_profile");
-    PopupTupyEditProfile.classList.add('popap_opened');
-  }
+function Main(props) {
 
-  function handleAddPlaceClick() {
-    const PopupTupyAddPlace = document.querySelector(".popap_typy_place");
-    PopupTupyAddPlace.classList.add('popap_opened');
-  }
-    return (
-        <main class="content">
-          <section class="profile">
-            <div class="profile__block">
-              <button type="button" class="profile__button" onClick={handleEditAvatarClick}>
-                <img class="profile__image" src="#" alt="Фото профиля"/>
-              </button>
-              <div class="profile__content">
-                <div class="profile__info">
-                  <h1 class="profile__name">Жак Ив Кусто</h1>
-                  <button type="button" class="profile__edit-button" onClick={handleEditProfileClick}></button>
-                </div>
-                <p class="profile__profession">Программист</p>
-              </div>
-            </div>
-            <button type="button" class="profile__add-button" onClick={handleAddPlaceClick}></button>
-          </section>
-          <section class="plase"></section>
-        </main>
-    );
-  }
+  const [userName, setUserName] = React.useState("")
+  const [userDescription, setUserescription] = React.useState("")
+  const [userAvatar, setUserAvatar] = React.useState("")
+  const [cards, setcards] = React.useState([])
+
+  useEffect(() => {
+    Promise.all([api.getCards(), api.getCurrentUser()]).then(([cards, userData]) => {
+      setcards(cards)
+      setUserName(userData.name)
+      setUserescription(userData.about)
+      setUserAvatar(userData.avatar)
+      
+    }).catch((err) => {
+      console.error(err);
+    })
+  }, [])
+
   
-  export default Main;
+  return (
+    <main className="content">
+      <section className="profile">
+        <div className="profile__block">
+          <button type="button" className="profile__button" onClick={props.onEditAvatar}>
+            <div className="profile__image" style={{ backgroundImage: `url(${userAvatar})` }}  ></div>
+          </button>
+          <div className="profile__content">
+            <div className="profile__info">
+              <h1 className="profile__name">{userName}</h1>
+              <button type="button" className="profile__edit-button" onClick={props.onEditProfile}></button>
+            </div>
+            <p className="profile__profession">{userDescription}</p>
+          </div>
+        </div>
+        <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
+      </section>
+      <section className="plase">
+        {cards.map((card, _id) => (
+          <Card
+            key={_id}
+            card={card}
+            link={card.link}
+            name={card.name}
+            likes={card.likes.length}
+            onCardClick={props.onCardClick}
+            />
+        ))}
+       
+      </section>
+    </main>
+  );
+}
+
+export default Main;

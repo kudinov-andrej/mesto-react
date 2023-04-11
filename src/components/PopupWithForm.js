@@ -2,7 +2,7 @@ import React from 'react';
 
 function PopupWithForm(props) {
     return (
-        <div className={`popap popap_type_${props.name} ${props.isOpen ? 'popap_opened' : ""}`}>
+        <div className={`popap popap_type_${props.name} ${props.isOpen ? 'popap_opened' : ""}`} onClick={props.onCloseClick}>
         <div className="popap__conteiner">
           <button className="popap__button-close" type="button" onClick={props.onClose}></button>
           <h2 className="popap__title">{props.title}</h2>

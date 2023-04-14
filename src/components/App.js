@@ -14,8 +14,8 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 function App() {
 
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setisEditPlacePopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsEditPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null)
   const [currentUser, setCurrentUser] = useState({})
   const [cards, setCards] = useState([]);
@@ -24,10 +24,10 @@ function App() {
     setIsEditAvatarPopupOpen(true)
   }
   function handleEditProfileClick() {
-    setisEditProfilePopupOpen(true)
+    setIsEditProfilePopupOpen(true)
   }
   function handleEditPlaceClick() {
-    setisEditPlacePopupOpen(true)
+    setIsEditPlacePopupOpen(true)
   }
 
   function handleCardClick(card) {
@@ -44,8 +44,8 @@ function App() {
   }, []);
 
   function closeAllPopups() {
-    setisEditPlacePopupOpen(false)
-    setisEditProfilePopupOpen(false)
+    setIsEditPlacePopupOpen(false)
+    setIsEditProfilePopupOpen(false)
     setIsEditAvatarPopupOpen(false)
     setSelectedCard(null)
   }
@@ -80,11 +80,15 @@ function App() {
       api.setLike(card._id).then((newCard) => {
         const newCards = cards.map((c) => c._id === card._id ? newCard : c);
         setCards(newCards);
+      }).catch((err) => {
+        console.error(err);
       });
     } else {
       api.deleteLike(card._id).then((newCard) => {
         const newCards = cards.map((c) => c._id === card._id ? newCard : c);
         setCards(newCards);
+      }).catch((err) => {
+        console.error(err);
       });
     }
   }
@@ -92,7 +96,9 @@ function App() {
 
   function handleCardDelete(card) {
     api.deleteCard(card._id).then(() => {
-      setCards((cards) => cards.filter((c) => c._id !== card._id && c));
+      setCards((cards) => cards.filter((c) => c._id !== card._id));
+    }).catch((err) => {
+      console.error(err);
     });
   }
 

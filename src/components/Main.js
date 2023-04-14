@@ -24,15 +24,14 @@ function Main(props) {
         <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
       </section>
       <section className="plase">
-        {props.cards.map((card, id) => (
+        {props.cards.map((card) => (
           <Card
-            key={id}
+            key={card._id}
             card={card}
             link={card.link}
             name={card.name}
             likes={card.likes.length}
             onCardClick={props.onCardClick}
-            userData={card.userData}
             onCardLike={props.onCardLike}
             onCardDelete={props.onCardDelete}
           />

@@ -30,10 +30,13 @@ function Card(props) {
         <div className="photo-plase__like-conteiner">
           <button type="button" className={`photo-plase__hard ${isLiked ? 'hard_active' : ''}`} onClick={handleLikeClick}></button>
           <div className="photo-plase__counter-like">{props.likes}</div>
+          {console.log(props.card._id)}
         </div>
       </div>
     </article>
   );
 }
+
+
 
 export default Card;

@@ -1,21 +1,18 @@
-import  { useContext } from 'react'; 
+import { useContext } from 'react';
 import Card from "../components/Card.js"
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-
 
 function Main(props) {
 
   const currentUser = useContext(CurrentUserContext);
-  
 
-    return (
+  return (
     <main className="content">
       <section className="profile">
         <div className="profile__block">
           <button type="button" className="profile__button" onClick={props.onEditAvatar}>
             <div className="profile__image" style={{ backgroundImage: `url(${currentUser.avatar})` }}  ></div>
           </button>
-         
           <div className="profile__content">
             <div className="profile__info">
               <h1 className="profile__name">{currentUser.name}</h1>
@@ -27,7 +24,7 @@ function Main(props) {
         <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
       </section>
       <section className="plase">
-        {props.cards.map((card, id) => (         
+        {props.cards.map((card, id) => (
           <Card
             key={id}
             card={card}
@@ -35,11 +32,10 @@ function Main(props) {
             name={card.name}
             likes={card.likes.length}
             onCardClick={props.onCardClick}
-            userData = {card.userData}
+            userData={card.userData}
             onCardLike={props.onCardLike}
             onCardDelete={props.onCardDelete}
-            />
-           
+          />
         ))}
       </section>
     </main>
